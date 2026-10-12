@@ -1,0 +1,56 @@
+# 📄 ATS Resume Checker
+
+Upload a resume (PDF, DOCX or TXT) and get an **ATS score (0-100)**, a category breakdown,
+missing keywords and specific, section-by-section improvements. Built with **Streamlit** and
+**Google Gemini Flash**.
+
+## Features
+- PDF / DOCX / TXT parsing (including DOCX tables)
+- Optional job description for accurate keyword matching
+- Hybrid scoring: rule-based ATS checks (email, phone, sections, bullets, length, metrics) + Gemini analysis
+- Prioritised improvements with example rewrites
+- Downloadable Markdown report
+
+## Run locally
+```bash
+git clone https://github.com/<your-username>/ats-resume-checker.git
+cd ats-resume-checker
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Get a free API key at <https://aistudio.google.com/apikey>, then provide it in **one** of these ways:
+
+1. Paste it in the app sidebar, or
+2. Environment variable: `export GEMINI_API_KEY="your-key"` (Windows PowerShell: `$env:GEMINI_API_KEY="your-key"`), or
+3. Create `.streamlit/secrets.toml`:
+   ```toml
+   GEMINI_API_KEY = "your-key"
+   ```
+
+```bash
+streamlit run app.py
+```
+
+## Configuration
+| Setting | How | Default |
+|---|---|---|
+| Model | sidebar field or `GEMINI_MODEL` env var | `gemini-3.5-flash` |
+| API key | sidebar, `GEMINI_API_KEY` env var, or Streamlit secrets | - |
+
+> Google retires older models regularly. If you see a "model not found" error, check the current
+> model IDs at <https://ai.google.dev/gemini-api/docs/models> and update the model field.
+
+## Deploy on Streamlit Community Cloud
+1. Push this repo to GitHub (never commit your API key).
+2. Go to <https://share.streamlit.io>, sign in with GitHub and click **Create app**.
+3. Select your repo, branch `main`, main file `app.py`.
+4. Open **Advanced settings → Secrets** and add: `GEMINI_API_KEY = "your-key"`
+5. Click **Deploy**.
+
+## Privacy
+Resume text is sent to Google's Gemini API for analysis and is not stored by this app.
+
+## License
+MIT
